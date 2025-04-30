@@ -4,26 +4,26 @@ import Image from 'next/image';
 // 在此对象中填写图片路径，键名为从 0 到 cols*rows-1 的索引
 // 索引对应顺序：先按列（从左到右），再按列内行（从上到下）
 const imageUrls: Record<number, string> = {
-  0: '', // 示例: 'https://example.com/image1.jpg'
-  1: '',
-  2: '',
-  3: '',
-  4: '',
-  5: '',
-  6: '',
-  7: '',
-  8: '',
-  9: '',
-  10: '',
-  11: '',
-  12: '',
-  13: '',
-  14: '',
-  15: '',
-  16: '',
-  17: '',
-  18: '',
-  19: '' // 确保索引总数等于 cols * rows
+  0: '/favicon.ico', // 示例: 'https://example.com/image1.jpg'
+  1: '/favicon.ico',
+  2: '/favicon.ico',
+  3: '/favicon.ico',
+  4: '/favicon.ico',
+  5: '/favicon.ico',
+  6: '/favicon.ico',
+  7: '/favicon.ico',
+  8: '/favicon.ico',
+  9: '/favicon.ico',
+  10: '/favicon.ico',
+  11: '/favicon.ico',
+  12: '/favicon.ico',
+  13: '/favicon.ico',
+  14: '/favicon.ico',
+  15: '/favicon.ico',
+  16: '/favicon.ico',
+  17: '/favicon.ico',
+  18: '/favicon.ico',
+  19: '/favicon.ico' // 确保索引总数等于 cols * rows
 };
 
 export default function Home() {
