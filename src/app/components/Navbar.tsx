@@ -2,20 +2,20 @@
 
 import React, { useState, useEffect } from 'react';
 import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  Drawer,
-  List,
-  ListItemButton,
-  ListItemText,
-  Box,
-  Button,
-  Stack,
-  useTheme,
-  useMediaQuery,
-} from '@mui/material';
+    AppBar,
+    Toolbar,
+    Typography,
+    IconButton,
+    Drawer,
+    List,
+    ListItemButton,
+    ListItemText,
+    Box,
+    Button,
+    Stack,
+    useTheme,
+  } from '@mui/material';
+  
 import MenuIcon from '@mui/icons-material/Menu';
 
 const navItems = ['Home', 'How it Works', 'Community Service', 'About'];
