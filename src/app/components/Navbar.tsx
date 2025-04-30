@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -23,13 +23,27 @@ const navItems = ['Home', 'How it Works', 'Community Service', 'About'];
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+  
+  // Fix hydration mismatch by using null initially, then setting after mount
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  
+  // Move media query evaluation to useEffect to ensure it only runs on client
+  useEffect(() => {
+    setIsSmallScreen(window.innerWidth < theme.breakpoints.values.md);
+    
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < theme.breakpoints.values.md);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [theme.breakpoints.values.md]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const gradientText = (text, colors) => (
+  const gradientText = (text: string, colors: string[]) => (
     <Box
       component="span"
       sx={{
