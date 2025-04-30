@@ -1,8 +1,9 @@
 import React from 'react';
+import Image from 'next/image';
 
 // 在此对象中填写图片路径，键名为从 0 到 cols*rows-1 的索引
 // 索引对应顺序：先按列（从左到右），再按列内行（从上到下）
-const imageUrls = {
+const imageUrls: Record<number, string> = {
   0: '', // 示例: 'https://example.com/image1.jpg'
   1: '',
   2: '',
@@ -47,11 +48,11 @@ export default function Home() {
         }
       `}</style>
 
-      {/* 主容器：屏幕小于 md 时居中，大于等于 md 时两端布局 */}
+      {/* 主容器：屏幕小于 md 时居中，大于等于 md 时左右分布 */}
       <div className="flex h-screen items-center px-16 space-x-2 justify-center md:justify-between">
-        {/* 左侧：在小屏上占满全宽并居中内容，md 及以上占半屏并左对齐 */}
-        <div className="w-full md:w-1/2 space-y-6 text-center md:text-left">
-          <div className="flex justify-center md:justify-start space-x-4">
+        {/* 左侧：始终 flex 容器，文字左对齐；md 及以上宽度为 1/2 */}
+        <div className="flex flex-col justify-center items-start w-full md:w-1/2 space-y-6 text-left">
+          <div className="flex space-x-4">
             <span className="px-4 py-1 rounded-full bg-gray-800 text-white text-sm">100+ members</span>
             <span className="px-4 py-1 rounded-full bg-gray-800 text-white text-sm">3 countries</span>
           </div>
@@ -61,7 +62,7 @@ export default function Home() {
           <button className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700">
             SWAP SKILLS NOW →
           </button>
-          <p className="text-sm text-gray-400">Don't have an account? Sign up for free!</p>
+          <p className="text-sm text-gray-400">Don&apos;t have an account? Sign up for free!</p>
         </div>
 
         {/* 右侧漂浮列：md 及以上显示，小屏隐藏 */}
@@ -105,11 +106,17 @@ export default function Home() {
                             className="w-[80px] h-[120px] rounded-md border overflow-hidden"
                             style={{ opacity, borderColor: `rgba(255,255,255,${opacity})` }}
                           >
-                            <img
-                              src={imageUrls[idx] || ''}
-                              alt={`box-${idx}`}
-                              className="w-full h-full object-cover"
-                            />
+                            {imageUrls[idx] ? (
+                              <Image
+                                src={imageUrls[idx]}
+                                alt={`box-${idx}`}
+                                width={80}
+                                height={120}
+                                style={{ objectFit: 'cover' }}
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gray-800" />
+                            )}
                           </div>
                         );
                       })}
