@@ -29,13 +29,25 @@ export default function Navbar() {
     setMobileOpen(!mobileOpen);
   };
 
+  const gradientText = (text, colors) => (
+    <Box
+      component="span"
+      sx={{
+        background: `linear-gradient(to right, ${colors.join(', ')})`,
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        fontWeight: 'bold',
+      }}
+    >
+      {text}
+    </Box>
+  );
+
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        <Box component="span" sx={{ color: '#3b82f6', fontWeight: 'bold' }}>
-          Skill
-        </Box>{' '}
-        <Box component="span" sx={{ color: '#e5e7eb' }}>Swap</Box>
+        {gradientText('Skill', ['#3b82f6', '#60a5fa'])}{' '}
+        {gradientText('Swap', ['#93c5fd', '#bfdbfe'])}
       </Typography>
       <List>
         {navItems.map((item) => (
@@ -53,10 +65,8 @@ export default function Navbar() {
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           {/* Logo */}
           <Typography variant="h6" component="div" sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box component="span" sx={{ color: '#3b82f6', fontWeight: 'bold' }}>
-              Skill
-            </Box>{' '}
-            <Box component="span" sx={{ color: '#e5e7eb' }}>Swap</Box>
+            {gradientText('Skill', ['#3b82f6', '#60a5fa'])}{' '}
+            {gradientText('Swap', ['#93c5fd', '#bfdbfe'])}
           </Typography>
 
           {/* Navigation Items or Menu Icon */}
