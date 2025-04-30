@@ -29,7 +29,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Navbar />
+        <main style={{paddingTop: '64px'}}>
         {children}
+        </main>
       </body>
     </html>
   );
