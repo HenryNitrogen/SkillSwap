@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { MotionButton } from "@/components/ui/motion-button";
 import { MotionText } from "@/components/ui/motion-text";
@@ -11,6 +12,16 @@ import { GradientCard } from "@/components/ui/gradient-card";
 
 export default function Home() {
   const images = Array.from({ length: 16 }, (_, i) => `/${i + 1}.jpg`);
+  const { data: session } = useSession();
+
+  const handleAuthAction = () => {
+    if (session) {
+      void signOut();
+    } else {
+      // Directly sign in with Discord, bypassing the NextAuth sign-in page
+      void signIn("discord", { callbackUrl: "/" });
+    }
+  };
 
   return (
     <div className="min-h-screen overflow-hidden bg-gradient-to-b from-[#020b18] via-[#031629] to-[#062137]">
@@ -70,6 +81,18 @@ export default function Home() {
             Meet, chat, and study with students from around the world
           </MotionText>
 
+          {session && (
+            <MotionText
+              as="p"
+              className="text-blue-300/90 font-medium"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.55 }}
+            >
+              Welcome back, {session.user?.name}!
+            </MotionText>
+          )}
+
           <div className="mt-2 flex flex-col gap-3 sm:flex-row">
             <MotionButton
               className="w-full sm:w-[220px]"
@@ -88,8 +111,9 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.7 }}
+              onClick={handleAuthAction}
             >
-              <span>LEARN MORE</span>
+              <span>{session ? "SIGN OUT" : "SIGN IN WITH DISCORD"}</span>
             </MotionButton>
           </div>
 
@@ -99,14 +123,17 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.8 }}
             className="mt-2"
           >
-            <Button
-              variant="link"
-              size="sm"
-              className="h-auto p-0 text-xs text-blue-300/80 hover:text-blue-200"
-            >
-              Don&apos;t have an account?{" "}
-              <span className="ml-1 underline">Sign up for free!</span>
-            </Button>
+            {!session && (
+              <Button
+                variant="link"
+                size="sm"
+                className="h-auto p-0 text-xs text-blue-300/80 hover:text-blue-200"
+                onClick={() => signIn("discord", { callbackUrl: "/" })}
+              >
+                Don&apos;t have an account?{" "}
+                <span className="ml-1 underline">Sign up for free!</span>
+              </Button>
+            )}
           </motion.div>
         </motion.div>
 
