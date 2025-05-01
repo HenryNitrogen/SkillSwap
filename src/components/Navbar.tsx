@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu } from "lucide-react";
 import { motion } from "framer-motion";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ const navItems = ["Home", "How it Works", "Community Service", "About"];
 export function Navbar() {
   const [activeItem, setActiveItem] = useState("Home");
   const [scrolled, setScrolled] = useState(false);
+  const { data: session } = useSession();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,6 +32,15 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleAuthAction = () => {
+    if (session) {
+      void signOut();
+    } else {
+      // Directly sign in with Discord
+      void signIn("discord", { callbackUrl: "/" });
+    }
+  };
 
   const GradientText = ({
     text,
@@ -99,17 +110,11 @@ export function Navbar() {
 
         <div className="hidden items-center gap-2 md:flex">
           <Button
-            variant="outline"
-            size="sm"
-            className="rounded-lg border-white/10 bg-white/5 text-white/90 backdrop-blur-sm hover:border-white/20 hover:bg-white/10"
-          >
-            Login
-          </Button>
-          <Button
             size="sm"
             className="rounded-lg bg-gradient-to-r from-violet-500 to-indigo-500 text-white shadow-md shadow-indigo-500/25 hover:from-violet-600 hover:to-indigo-600"
+            onClick={handleAuthAction}
           >
-            Sign up
+            {session ? "Dashboard" : "Login / Signup"}
           </Button>
         </div>
 
@@ -162,14 +167,11 @@ export function Navbar() {
                 </Link>
               ))}
               <div className="mt-4 flex flex-col gap-2">
-                <Button
-                  variant="outline"
-                  className="w-full rounded-lg border-white/10 bg-white/5 text-white/90 hover:border-white/20"
+                <Button 
+                  className="w-full rounded-lg bg-gradient-to-r from-violet-500 to-indigo-500 text-white hover:from-violet-600 hover:to-indigo-600"
+                  onClick={handleAuthAction}
                 >
-                  Login
-                </Button>
-                <Button className="w-full rounded-lg bg-gradient-to-r from-violet-500 to-indigo-500 text-white hover:from-violet-600 hover:to-indigo-600">
-                  Sign up
+                  {session ? "Dashboard" : "Login / Signup"}
                 </Button>
               </div>
             </div>
