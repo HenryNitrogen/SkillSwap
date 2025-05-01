@@ -1,133 +1,162 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useState } from "react";
-import { Menu } from "lucide-react";
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-
-import { Button } from "@/components/ui/button";
+import React, { useState, useEffect } from 'react';
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+    AppBar,
+    Toolbar,
+    Typography,
+    IconButton,
+    Drawer,
+    List,
+    ListItemButton,
+    ListItemText,
+    Box,
+    Button,
+    Stack,
+    useTheme,
+  } from '@mui/material';
+  
+import MenuIcon from '@mui/icons-material/Menu';
 
-const navItems = ["Home", "How it Works", "Community Service", "About"];
+const navItems = ['Home', 'How it Works', 'Community Service', 'About'];
 
-export function Navbar() {
-  const [activeItem, setActiveItem] = useState("Home");
+export default function Navbar() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const theme = useTheme();
+  
+  // Fix hydration mismatch by using null initially, then setting after mount
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  
+  // Move media query evaluation to useEffect to ensure it only runs on client
+  useEffect(() => {
+    setIsSmallScreen(window.innerWidth < theme.breakpoints.values.md);
+    
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < theme.breakpoints.values.md);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [theme.breakpoints.values.md]);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const gradientText = (text: string, colors: string[]) => (
+    <Box
+      component="span"
+      sx={{
+        background: `linear-gradient(to right, ${colors.join(', ')})`,
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        fontWeight: 'bold',
+      }}
+    >
+      {text}
+    </Box>
+  );
+
+  const drawer = (
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+      <Typography variant="h6" sx={{ my: 2 }}>
+        {gradientText('Skill', ['#3b82f6', '#60a5fa'])}{' '}
+        {gradientText('Swap', ['#93c5fd', '#bfdbfe'])}
+      </Typography>
+      <List>
+        {navItems.map((item) => (
+          <ListItemButton key={item}>
+            <ListItemText primary={item} sx={{ textAlign: 'center' }} />
+          </ListItemButton>
+        ))}
+      </List>
+    </Box>
+  );
 
   return (
-    <header className="border-border/40 bg-background/80 fixed top-0 right-0 left-0 z-50 border-b backdrop-blur-md">
-      <div className="container flex h-16 items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center">
-          <Logo />
-        </Link>
+    <>
+      <AppBar position="fixed" sx={{ backgroundColor: '#1c1c25' }}>
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
+          {/* Logo */}
+          <Typography variant="h6" component="div" sx={{ display: 'flex', alignItems: 'center' }}>
+            {gradientText('Skill', ['#3b82f6', '#60a5fa'])}{' '}
+            {gradientText('Swap', ['#93c5fd', '#bfdbfe'])}
+          </Typography>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden gap-6 md:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item}
-              href={
-                item === "Home"
-                  ? "/"
-                  : `/${item.toLowerCase().replace(/\s+/g, "-")}`
-              }
-              onClick={() => setActiveItem(item)}
-              className={cn(
-                "hover:text-foreground/80 text-sm font-medium transition-colors",
-                activeItem === item
-                  ? "text-foreground font-bold"
-                  : "text-foreground/60",
-              )}
+          {/* Navigation Items or Menu Icon */}
+          {isSmallScreen ? (
+            <IconButton
+              color="inherit"
+              edge="start"
+              onClick={handleDrawerToggle}
+              aria-label="menu"
+              sx={{ mr: 2 }}
             >
-              {item}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Right side - Auth buttons */}
-        <div className="hidden items-center gap-2 md:flex">
-          <Button variant="outline" size="sm">
-            Login
-          </Button>
-          <Button size="sm">Sign up</Button>
-        </div>
-
-        {/* Mobile menu button */}
-        <Sheet>
-          <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon">
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left">
-            <SheetHeader>
-              <SheetTitle>
-                <Logo />
-              </SheetTitle>
-              <SheetDescription>Navigation</SheetDescription>
-            </SheetHeader>
-            <div className="mt-8 flex flex-col gap-4">
-              {navItems.map((item) => (
-                <Link
+              <MenuIcon />
+            </IconButton>
+          ) : (
+            <Stack direction="row" spacing={4} alignItems="center">
+              {navItems.map((item, idx) => (
+                <Typography
                   key={item}
-                  href={
-                    item === "Home"
-                      ? "/"
-                      : `/${item.toLowerCase().replace(/\s+/g, "-")}`
-                  }
-                  onClick={() => setActiveItem(item)}
-                  className={cn(
-                    "hover:text-foreground/80 text-sm font-medium transition-colors",
-                    activeItem === item
-                      ? "text-foreground font-bold"
-                      : "text-foreground/60",
-                  )}
+                  sx={{
+                    color: idx === 0 ? '#fff' : '#e5e7eb',
+                    fontWeight: idx === 0 ? 'bold' : 'normal',
+                    cursor: 'pointer',
+                    '&:hover': { color: '#fff' },
+                  }}
                 >
                   {item}
-                </Link>
+                </Typography>
               ))}
-              <div className="mt-4 flex flex-col gap-2">
-                <Button variant="outline" className="w-full">
-                  Login
-                </Button>
-                <Button className="w-full">Sign up</Button>
-              </div>
-            </div>
-          </SheetContent>
-        </Sheet>
-      </div>
-    </header>
-  );
-}
+            </Stack>
+          )}
 
-function Logo() {
-  return (
-    <div className="flex items-center gap-1">
-      <motion.span
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="bg-gradient-to-r from-blue-500 to-blue-400 bg-clip-text text-xl font-bold text-transparent"
+          {/* Login and Sign up Buttons */}
+          <Stack direction="row" spacing={2} alignItems="center">
+            <Button
+              variant="outlined"
+              sx={{
+                color: '#e5e7eb',
+                borderColor: '#4b5563',
+                '&:hover': {
+                  borderColor: '#6b7280',
+                  backgroundColor: '#2d2d35',
+                },
+              }}
+            >
+              Login
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: '#3b82f6',
+                '&:hover': {
+                  backgroundColor: '#2563eb',
+                },
+              }}
+            >
+              Sign up
+            </Button>
+          </Stack>
+        </Toolbar>
+      </AppBar>
+
+      {/* Drawer for Small Screens */}
+      <Drawer
+        anchor="left"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        ModalProps={{
+          keepMounted: true,
+        }}
+        sx={{
+          display: { xs: 'block', md: 'none' },
+          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 240 },
+        }}
       >
-        Skill
-      </motion.span>
-      <motion.span
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="bg-gradient-to-r from-blue-300 to-blue-200 bg-clip-text text-xl font-bold text-transparent"
-      >
-        Swap
-      </motion.span>
-    </div>
+        {drawer}
+      </Drawer>
+    </>
   );
 }

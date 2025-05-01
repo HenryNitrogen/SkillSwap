@@ -1,128 +1,138 @@
-"use client";
-
-import React from "react";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import React from 'react';
+import Image from 'next/image';
+import {Button} from '@mui/material';
 import { signIn } from "next-auth/react";
-import { MotionButton } from "@/components/ui/motion-button";
-import { MotionText } from "@/components/ui/motion-text";
-import { FloatingColumn } from "@/components/ui/floating-column";
 
-export default function Guest() {
-  const images = Array.from({ length: 16 }, (_, i) => `/${i + 1}.jpg`);
+// 在此对象中填写图片路径，键名为从 0 到 cols*rows-1 的索引
+// 索引对应顺序：先按列（从左到右），再按列内行（从上到下）
+const imageUrls: Record<number, string> = {
+  0: '/1.jpg', // 示例: 'https://example.com/image1.jpg'
+  1: '/2.jpg',
+  2: '/3.jpg',
+  3: '/4.jpg',
+  4: '/5.jpg',
+  5: '/6.jpg',
+  6: '/7.jpg',
+  7: '/8.jpg',
+  8: '/9.jpg',
+  9: '/10.jpg',
+  10: '/11.jpg',
+  11: '/12.jpg',
+  12: '/14.jpg',
+  13: '/14.jpg',
+  14: '/15.jpg',
+  15: '/16.jpg',
+  16: '/4.jpg',
+  17: '/4.jpg',
+  18: '/4.jpg',
+  19: '/4.jpg' // 确保索引总数等于 cols * rows
+};
+
+export default function Home() {
+  const cols = 5;
+  const rows = 4;
+  const minOpacity = 0.2; // 最小不透明度
+  const angle = 15; // 倾斜度数
 
   return (
-    <div className="min-h-screen overflow-hidden bg-gradient-to-b from-[#020b18] via-[#031629] to-[#062137]">
-      <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center opacity-5"></div>
+    <div className="bg-black">
+      {/* 全局动画定义 */}
+      <style>{`
+        @keyframes floatUpDownRotated {
+          0%   { transform: rotate(${angle}deg) translateY(0); }
+          50%  { transform: rotate(${angle}deg) translateY(-20px); }
+          100% { transform: rotate(${angle}deg) translateY(0); }
+        }
+        @keyframes floatDownUpRotated {
+          0%   { transform: rotate(${angle}deg) translateY(0); }
+          50%  { transform: rotate(${angle}deg) translateY(20px); }
+          100% { transform: rotate(${angle}deg) translateY(0); }
+        }
+      `}</style>
 
-      <div className="absolute top-1/4 right-1/3 h-96 w-96 rounded-full bg-blue-500/10 blur-3xl"></div>
-      <div className="absolute bottom-1/3 left-1/4 h-72 w-72 rounded-full bg-blue-600/10 blur-3xl"></div>
-
-      <div className="relative container mx-auto flex min-h-screen items-center justify-center space-x-2 px-4 md:justify-between md:px-8">
-        <motion.div
-          className="z-10 flex w-full flex-col items-start justify-center space-y-4 text-left md:w-1/2"
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <div className="flex flex-wrap gap-2">
-            <span className="rounded-full border border-blue-600/20 bg-blue-900/20 px-4 py-1.5 text-xs font-medium text-white/90 shadow-sm backdrop-blur-md">
-              100+ members
-            </span>
-            <span className="rounded-full border border-blue-600/20 bg-blue-900/20 px-4 py-1.5 text-xs font-medium text-white/90 shadow-sm backdrop-blur-md">
-              3 countries
-            </span>
+      {/* 主容器：屏幕小于 md 时居中，大于等于 md 时左右分布 */}
+      <div className="flex h-screen items-center px-16 space-x-2 justify-center md:justify-between">
+        {/* 左侧：始终 flex 容器，文字左对齐；md 及以上宽度为 1/2 */}
+        <div className="flex flex-col justify-center items-start w-full md:w-1/2 space-y-3 text-left">
+          <div className="flex space-x-3">
+            <span className="px-4 py-1 rounded-full bg-gray-800 text-white text-sm">100+ members</span>
+            <span className="px-4 py-1 rounded-full bg-gray-800 text-white text-sm">3 countries</span>
           </div>
+          <h1 className="text-5xl font-bold text-white">Swap Skills, Build Community</h1>
+          <h2 className="text-3xl text-blue-400">Teach & Learn Anything</h2>
+          <p className="text-gray-300">Meet, chat, and study with students ...</p>
+          <Button sx={{ width: '200px' }} variant="contained" color="primary"
+          onClick={() => signIn("discord", { callbackUrl: "/" })}>
+            SWAP SKILLS NOW →
+          </Button>
+          <p />
+          <Button size="small" sx={{ color: 'white', fontSize: '0.75rem'  }}onClick={() => signIn("discord", { callbackUrl: "/" })}>
+            Don&apos;t have an account? Sign up for free!
+          </Button>
+        </div>
 
-          <MotionText
-            as="h1"
-            className="text-4xl font-bold text-white md:text-5xl"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            Swap Skills, Build Community
-          </MotionText>
-
-          <MotionText
-            as="h2"
-            className="text-2xl font-semibold md:text-3xl"
-            gradient
-            gradientFrom="from-blue-400"
-            gradientTo="to-blue-300"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            Teach & Learn Anything
-          </MotionText>
-
-          <MotionText
-            as="p"
-            className="text-blue-100/80"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-          >
-            Meet, chat, and study with students from around the world
-          </MotionText>
-
-          <div className="mt-2 flex flex-col gap-3 sm:flex-row">
-            <MotionButton
-              className="w-full sm:w-[220px]"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              onClick={() => signIn("discord", { callbackUrl: "/" })}
-            >
-              <span>SWAP SKILLS NOW</span>
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </MotionButton>
-            
-            <MotionButton
-              glass
-              className="w-full sm:w-auto"
-              variant="outline"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-              onClick={() => window.location.href = "#how-it-works"}
-            >
-              <span>LEARN MORE</span>
-            </MotionButton>
-          </div>
-        </motion.div>
-
-        <motion.div
-          className="z-10 hidden flex-1 items-center justify-center md:flex"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
-        >
+        {/* 右侧漂浮列：md 及以上显示，小屏隐藏 */}
+        <div className="hidden md:flex flex-1 justify-center items-center">
           <div
-            className="rounded-2xl border border-blue-900/30 bg-gradient-to-br from-[#040f22] via-[#061332]/90 to-[#0a1e4b]/80 p-6 backdrop-blur-xl"
+            className="border border-white p-4"
             style={{
               WebkitMaskImage:
-                "radial-gradient(ellipse at center, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
+                'radial-gradient(ellipse at center, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
               maskImage:
-                "radial-gradient(ellipse at center, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
-              boxShadow: "0 0 60px -15px rgba(30, 64, 175, 0.3)",
+                'radial-gradient(ellipse at center, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)'
             }}
           >
-            <div className="flex gap-4">
-              {Array.from({ length: 5 }).map((_, colIndex) => (
-                <FloatingColumn
-                  key={colIndex}
-                  images={images}
-                  index={colIndex}
-                  angle={15}
-                  rows={4}
-                  cols={5}
-                />
-              ))}
+            <div className="flex space-x-4">
+              {Array.from({ length: cols }).map((_, colIndex) => {
+                const animationName =
+                  colIndex % 2 === 0 ? 'floatUpDownRotated' : 'floatDownUpRotated';
+
+                return (
+                  <div
+                    key={colIndex}
+                    className="inline-block"
+                    style={{ animation: `${animationName} 4s ease-in-out infinite` }}
+                  >
+                    <div className="flex flex-col space-y-4">
+                      {Array.from({ length: rows }).map((_, rowIndex) => {
+                        const idx = colIndex * rows + rowIndex;
+
+                        // 透明度计算
+                        const maxColDist = (cols - 1) / 2;
+                        const maxRowDist = (rows - 1) / 2;
+                        const colDist = Math.min(colIndex, cols - 1 - colIndex);
+                        const rowDist = Math.min(rowIndex, rows - 1 - rowIndex);
+                        const normCol = maxColDist === 0 ? 0 : colDist / maxColDist;
+                        const normRow = maxRowDist === 0 ? 0 : rowDist / maxRowDist;
+                        const opacity = Math.min(normCol, normRow) * (1 - minOpacity) + minOpacity;
+
+                        return (
+                          <div
+                            key={rowIndex}
+                            className="w-[80px] h-[120px] rounded-md border overflow-hidden"
+                            style={{ opacity, borderColor: `rgba(255,255,255,${opacity})` }}
+                          >
+                            {imageUrls[idx] ? (
+                              <Image
+                                src={imageUrls[idx]}
+                                alt={`box-${idx}`}
+                                width={80}
+                                height={120}
+                                style={{ objectFit: 'cover' }}
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gray-800" />
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

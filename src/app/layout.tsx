@@ -3,7 +3,7 @@ import "@/styles/theme.css";
 
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
-import { Navbar } from "@/components/Navbar";
+import  Navbar  from "@/components/Navbar";
 import { TRPCReactProvider } from "@/trpc/react";
 import { SessionProvider } from "@/components/SessionProvider";
 
