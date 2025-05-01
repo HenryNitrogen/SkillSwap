@@ -1,69 +1,147 @@
-import Link from "next/link";
+"use client";
 
-import { LatestPost } from "@/app/_components/post";
-import { auth } from "@/server/auth";
-import { api, HydrateClient } from "@/trpc/server";
+import React from "react";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { MotionButton } from "@/components/ui/motion-button";
+import { MotionText } from "@/components/ui/motion-text";
+import { FloatingColumn } from "@/components/ui/floating-column";
+import { GradientCard } from "@/components/ui/gradient-card";
 
-export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
-  const session = await auth();
-
-  if (session?.user) {
-    void api.post.getLatest.prefetch();
-  }
+export default function Home() {
+  const images = Array.from({ length: 16 }, (_, i) => `/${i + 1}.jpg`);
 
   return (
-    <HydrateClient>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-          <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-            Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-          </h1>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-              href="https://create.t3.gg/en/usage/first-steps"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">First Steps →</h3>
-              <div className="text-lg">
-                Just the basics - Everything you need to know to set up your
-                database and authentication.
-              </div>
-            </Link>
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-              href="https://create.t3.gg/en/introduction"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">Documentation →</h3>
-              <div className="text-lg">
-                Learn more about Create T3 App, the libraries it uses, and how
-                to deploy it.
-              </div>
-            </Link>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-2xl text-white">
-              {hello ? hello.greeting : "Loading tRPC query..."}
-            </p>
+    <div className="min-h-screen overflow-hidden bg-gradient-to-b from-[#020b18] via-[#031629] to-[#062137]">
+      <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center opacity-5"></div>
 
-            <div className="flex flex-col items-center justify-center gap-4">
-              <p className="text-center text-2xl text-white">
-                {session && <span>Logged in as {session.user?.name}</span>}
-              </p>
-              <Link
-                href={session ? "/api/auth/signout" : "/api/auth/signin"}
-                className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-              >
-                {session ? "Sign out" : "Sign in"}
-              </Link>
+      {/* Glow elements */}
+      <div className="absolute top-1/4 right-1/3 h-96 w-96 rounded-full bg-blue-500/10 blur-3xl"></div>
+      <div className="absolute bottom-1/3 left-1/4 h-72 w-72 rounded-full bg-blue-600/10 blur-3xl"></div>
+
+      <div className="relative container mx-auto flex min-h-screen items-center justify-center space-x-2 px-4 md:justify-between md:px-8">
+        {/* Left Content Section */}
+        <motion.div
+          className="z-10 flex w-full flex-col items-start justify-center space-y-4 text-left md:w-1/2"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <div className="flex flex-wrap gap-2">
+            <span className="rounded-full border border-blue-600/20 bg-blue-900/20 px-4 py-1.5 text-xs font-medium text-white/90 shadow-sm backdrop-blur-md">
+              100+ members
+            </span>
+            <span className="rounded-full border border-blue-600/20 bg-blue-900/20 px-4 py-1.5 text-xs font-medium text-white/90 shadow-sm backdrop-blur-md">
+              3 countries
+            </span>
+          </div>
+
+          <MotionText
+            as="h1"
+            className="text-4xl font-bold text-white md:text-5xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            Swap Skills, Build Community
+          </MotionText>
+
+          <MotionText
+            as="h2"
+            className="text-2xl font-semibold md:text-3xl"
+            gradient
+            gradientFrom="from-blue-400"
+            gradientTo="to-blue-300"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            Teach & Learn Anything
+          </MotionText>
+
+          <MotionText
+            as="p"
+            className="text-blue-100/80"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
+            Meet, chat, and study with students from around the world
+          </MotionText>
+
+          <div className="mt-2 flex flex-col gap-3 sm:flex-row">
+            <MotionButton
+              className="w-full sm:w-[220px]"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              <span>SWAP SKILLS NOW</span>
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </MotionButton>
+
+            <MotionButton
+              glass
+              className="w-full sm:w-auto"
+              variant="outline"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+            >
+              <span>LEARN MORE</span>
+            </MotionButton>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="mt-2"
+          >
+            <Button
+              variant="link"
+              size="sm"
+              className="h-auto p-0 text-xs text-blue-300/80 hover:text-blue-200"
+            >
+              Don&apos;t have an account?{" "}
+              <span className="ml-1 underline">Sign up for free!</span>
+            </Button>
+          </motion.div>
+        </motion.div>
+
+        {/* Right Side - Floating Image Grid */}
+        <motion.div
+          className="z-10 hidden flex-1 items-center justify-center md:flex"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, delay: 0.5 }}
+        >
+          <div
+            className="rounded-2xl border border-blue-900/30 bg-gradient-to-br from-[#040f22] via-[#061332]/90 to-[#0a1e4b]/80 p-6 backdrop-blur-xl"
+            style={{
+              WebkitMaskImage:
+                "radial-gradient(ellipse at center, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
+              maskImage:
+                "radial-gradient(ellipse at center, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
+              boxShadow: "0 0 60px -15px rgba(30, 64, 175, 0.3)",
+            }}
+          >
+            <div className="flex gap-4">
+              {Array.from({ length: 5 }).map((_, colIndex) => (
+                <FloatingColumn
+                  key={colIndex}
+                  images={images}
+                  index={colIndex}
+                  angle={15}
+                  rows={4}
+                  cols={5}
+                />
+              ))}
             </div>
           </div>
-
-          {session?.user && <LatestPost />}
-        </div>
-      </main>
-    </HydrateClient>
+        </motion.div>
+      </div>
+    </div>
   );
 }
