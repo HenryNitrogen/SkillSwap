@@ -5,26 +5,26 @@ import {Button} from '@mui/material';
 // 在此对象中填写图片路径，键名为从 0 到 cols*rows-1 的索引
 // 索引对应顺序：先按列（从左到右），再按列内行（从上到下）
 const imageUrls: Record<number, string> = {
-  0: '/favicon.ico', // 示例: 'https://example.com/image1.jpg'
-  1: '/favicon.ico',
-  2: '/favicon.ico',
-  3: '/favicon.ico',
-  4: '/favicon.ico',
-  5: '/favicon.ico',
-  6: '/favicon.ico',
-  7: '/favicon.ico',
-  8: '/favicon.ico',
-  9: '/favicon.ico',
-  10: '/favicon.ico',
-  11: '/favicon.ico',
-  12: '/favicon.ico',
-  13: '/favicon.ico',
-  14: '/favicon.ico',
-  15: '/favicon.ico',
-  16: '/favicon.ico',
-  17: '/favicon.ico',
-  18: '/favicon.ico',
-  19: '/favicon.ico' // 确保索引总数等于 cols * rows
+  0: '/1.jpg', // 示例: 'https://example.com/image1.jpg'
+  1: '/2.jpg',
+  2: '/3.jpg',
+  3: '/4.jpg',
+  4: '/5.jpg',
+  5: '/6.jpg',
+  6: '/7.jpg',
+  7: '/8.jpg',
+  8: '/9.jpg',
+  9: '/10.jpg',
+  10: '/11.jpg',
+  11: '/12.jpg',
+  12: '/14.jpg',
+  13: '/14.jpg',
+  14: '/15.jpg',
+  15: '/16.jpg',
+  16: '/4.jpg',
+  17: '/4.jpg',
+  18: '/4.jpg',
+  19: '/4.jpg' // 确保索引总数等于 cols * rows
 };
 
 export default function Home() {
