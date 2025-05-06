@@ -27,7 +27,9 @@ export default function RootLayout({
         <SessionProvider>
           <TRPCReactProvider>
             <Navbar />
+            
             {children}
+           
           </TRPCReactProvider>
         </SessionProvider>
       </body>

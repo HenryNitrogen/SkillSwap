@@ -1,17 +1,19 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { color, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { MotionButton } from "@/components/ui/motion-button";
 import { MotionText } from "@/components/ui/motion-text";
 import { FloatingColumn } from "@/components/ui/floating-column";
+import Transitionbar from "@/components/transition_bar";
 
 export default function Guest() {
   const images = Array.from({ length: 16 }, (_, i) => `/${i + 1}.jpg`);
 
   return (
+    <>
     <div className="min-h-screen overflow-hidden bg-gradient-to-b from-[#020b18] via-[#031629] to-[#062137]">
       <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center opacity-5"></div>
 
@@ -124,6 +126,9 @@ export default function Guest() {
           </div>
         </motion.div>
       </div>
+      
     </div>
+    <Transitionbar />
+    </>
   );
 }
