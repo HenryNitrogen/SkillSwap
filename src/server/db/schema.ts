@@ -1,5 +1,5 @@
-import { relations, sql } from "drizzle-orm";
-import { index, pgTableCreator, primaryKey } from "drizzle-orm/pg-core";
+import { relations, sql, type InferSelectModel } from "drizzle-orm";
+import { index, jsonb, pgTableCreator, primaryKey } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
 
 /**
@@ -46,6 +46,15 @@ export const users = createTable("user", (d) => ({
     })
     .default(sql`CURRENT_TIMESTAMP`),
   image: d.varchar({ length: 255 }),
+  profileImage: d.varchar({ length: 255 }),
+  bio: d.text(),
+  tags: d.jsonb().default([]),
+  attributes: d.jsonb().default({}),
+  createdAt: d
+    .timestamp({ withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
 }));
 
 export const usersRelations = relations(users, ({ many }) => ({
@@ -106,3 +115,7 @@ export const verificationTokens = createTable(
   }),
   (t) => [primaryKey({ columns: [t.identifier, t.token] })],
 );
+
+// Type exports
+export type User = InferSelectModel<typeof users>;
+export type Post = InferSelectModel<typeof posts>;
