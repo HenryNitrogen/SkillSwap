@@ -8,6 +8,7 @@ import { MotionButton } from "@/components/ui/motion-button";
 import { MotionText } from "@/components/ui/motion-text";
 import { FloatingColumn } from "@/components/ui/floating-column";
 import Transitionbar from "@/components/transition_bar";
+import Tralalero from "@/components/Tralalero";
 
 export default function Guest() {
   const images = Array.from({ length: 16 }, (_, i) => `/${i + 1}.jpg`);
@@ -129,6 +130,7 @@ export default function Guest() {
       
     </div>
     <Transitionbar />
+    <Tralalero />
     </>
   );
 }
