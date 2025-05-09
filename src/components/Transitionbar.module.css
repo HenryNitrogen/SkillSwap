@@ -1,0 +1,53 @@
+.container {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    background-color: #1e161c;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 70px;
+  }
+  
+  .title {
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 30px;
+    text-align: center;
+  }
+  
+  .mission {
+    color: #2e6fef;
+    font-family: "Arial";
+    font-weight: 600; 
+
+    margin-top: 100px;
+    margin-left: 140px;
+    font-size: 40px;
+    line-height: 60px;
+  }
+  .missionText{
+    color: white;
+    font-family: "Arial";
+    padding-top: 100px;
+    padding-left: 40px;
+    font-size: 32;
+    padding-right: 40px;
+
+  }
+  .missionContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+  }
+  .underline{
+    color: #2e6fef;
+    font-family: "Arial";
+    font-weight: 600; 
+    text-decoration: underline;
+  }
+  
