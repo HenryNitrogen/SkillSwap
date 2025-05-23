@@ -114,7 +114,11 @@ export default function Tralalero() {
                     
 
                 </div>
-                <div><VelocityScroll>Scroll Based Velocity</VelocityScroll></div>
+                <div><VelocityScroll numRows={1} defaultVelocity={-5} style={{ transform: "rotate(-3deg)", 
+                    marginTop:"20px",
+                   
+                }}>Scroll Based Velocity</VelocityScroll>
+                </div>
         </main> 
     )
 }

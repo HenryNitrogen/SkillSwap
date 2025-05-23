@@ -73,7 +73,7 @@ function ParallaxText({
     let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
 
     if (velocityFactor.get() < 0) {
-      directionFactor.current = -1;
+      directionFactor.current = 1;
     } else if (velocityFactor.get() > 0) {
       directionFactor.current = 1;
     }
