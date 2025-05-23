@@ -1,6 +1,6 @@
 
 import styles from "./tralalelo.module.css"; // Import the CSS module
-
+import { VelocityScroll } from "@/components/magicui/scroll-based-velocity";
 export default function Tralalero() {
     return(
        <main>
@@ -110,9 +110,11 @@ export default function Tralalero() {
                         </div>
 
                     </div>
+
                     
 
                 </div>
+                <div><VelocityScroll>Scroll Based Velocity</VelocityScroll></div>
         </main> 
     )
 }
