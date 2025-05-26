@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import "@/styles/theme.css";
-
+import { SmoothCursor } from "@/components/ui/smooth-cursor";
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
@@ -24,6 +24,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable} dark`}>
       <body>
+      <SmoothCursor />
+
         <SessionProvider>
           <TRPCReactProvider>
             <Navbar />
